@@ -3,11 +3,14 @@ import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.WindowConstants;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -88,10 +91,16 @@ public class UI {
 
         frame.add(root);
 
-        JPanel panel = new JPanel(new FlowLayout());
+        JPanel panel = new JPanel(new GridLayout(0, 1));
 
-        JLabel congratulations = new JLabel("Parabéns!");
-        JLabel score = new JLabel();
+        JLabel congratulations = new JLabel("Parabéns!", SwingConstants.CENTER);
+        JLabel score = new JLabel("", SwingConstants.CENTER);
+
+        congratulations.setHorizontalAlignment(JLabel.CENTER);
+        congratulations.setVerticalAlignment(JLabel.CENTER);
+        score.setHorizontalAlignment(JLabel.CENTER);
+        score.setVerticalAlignment(JLabel.CENTER);
+
         panel.add(congratulations);
         panel.add(score);
 
@@ -102,9 +111,17 @@ public class UI {
         navigation.get(Orientation.NEXT).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                int[] answares = ManageActions.getInstance().getAnswares();
+                int correct = Quiz.respostas(answares);
+                int total = frames.size() - 1;
+                if (correct > (total / 2))
+                    congratulations.setText("Parabéns");
+                else
+                    congratulations.setText("Dá pra melhorar :D");
+
                 score.setText(
-                        "Você acertou " + Quiz.respostas(ManageActions.getInstance().getAnswares()) + " de "
-                                + (frames.size() - 1) + " perguntas");
+                        "Você acertou " + correct + " de "
+                                + (total) + " perguntas");
             }
         });
         return null;

@@ -14,8 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import java.util.stream.Collectors;
+import java.util.HashMap;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class UI {
 
@@ -51,12 +53,14 @@ public class UI {
         JPanel root = new JPanel(new BorderLayout());
         frames.add(frame, root);
 
+        int id = frames.getLastIndex();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(false);
 
         frame.add(root);
 
-        addNavegation(root, frames.getLastIndex());
+        Map<Orientation, JButton> map = addNavegation(root, frames.getLastIndex());
+        frames.addButtonMap(id, map);
         resize(frame);
 
         return root;
@@ -73,10 +77,37 @@ public class UI {
         return panel;
     }
 
-    public JPanel adicionarResposta() {
-        JPanel panel = frames.getLastPanel();
+    public JPanel adicionarRespostas() {
+        JFrame frame = new JFrame("PUCRS - Open Campus 2023: Resultado");
+        JPanel root = new JPanel(new BorderLayout());
+        Map<Orientation, JButton> navigation = frames.getLastNavigation();
+        frames.add(frame, root);
 
-        return panel;
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(false);
+
+        frame.add(root);
+
+        JPanel panel = new JPanel(new FlowLayout());
+
+        JLabel congratulations = new JLabel("Parabéns!");
+        JLabel score = new JLabel();
+        panel.add(congratulations);
+        panel.add(score);
+
+        root.add(panel, BorderLayout.CENTER);
+
+        resize(frame);
+
+        navigation.get(Orientation.NEXT).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                score.setText(
+                        "Você acertou " + Quiz.respostas(ManageActions.getInstance().getAnswares()) + " de "
+                                + (frames.size() - 1) + " perguntas");
+            }
+        });
+        return null;
     }
 
     /**
@@ -130,11 +161,13 @@ public class UI {
             hide.setVisible(false);
     }
 
-    private void addNavegation(JPanel panel, int id) {
+    private Map<Orientation, JButton> addNavegation(JPanel panel, int id) {
         JPanel buttonPane = new JPanel(new FlowLayout());
-
+        Map<Orientation, JButton> map = new HashMap<>();
         JButton previous = new JButton("Anterior");
         JButton next = new JButton("Próximo");
+        map.put(Orientation.PREVIOUS, previous);
+        map.put(Orientation.NEXT, next);
 
         next.addActionListener(new ActionListener() {
             @Override
@@ -153,6 +186,8 @@ public class UI {
         buttonPane.add(next);
 
         panel.add(buttonPane, BorderLayout.PAGE_END);
+
+        return map;
     }
 
     private void resize(JFrame frame) {

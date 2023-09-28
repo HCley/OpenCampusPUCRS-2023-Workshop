@@ -1,5 +1,7 @@
 import java.util.List;
+import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -11,6 +13,7 @@ public class Frames {
         int id;
 
         List<JRadioButton> buttons;
+        Map<UI.Orientation, JButton> navigation;
         JFrame frame;
         JPanel panel;
         Node previous;
@@ -106,6 +109,11 @@ public class Frames {
         return trailer.previous.panel;
     }
 
+    public Map<UI.Orientation, JButton> getLastNavigation() {
+        validateEmptyList();
+        return trailer.previous.navigation;
+    }
+
     public int getLastIndex() {
         validateEmptyList();
         return trailer.previous.id;
@@ -170,6 +178,10 @@ public class Frames {
         FRAME, PANEL, ID
     }
 
+    public void lastAddButtonList(List<JRadioButton> buttons) {
+        trailer.previous.buttons = buttons;
+    }
+
     public void addButtonList(int index, List<JRadioButton> buttons) {
         Node aux = header.next;
         for (; index > 0; index--) {
@@ -178,6 +190,20 @@ public class Frames {
             aux = aux.next;
         }
         aux.buttons = buttons;
+    }
+
+    public void lastaddButtonMap(Map<UI.Orientation, JButton> map) {
+        trailer.previous.navigation = map;
+    }
+
+    public void addButtonMap(int index, Map<UI.Orientation, JButton> map) {
+        Node aux = header.next;
+        for (; index > 0; index--) {
+            if (aux.next == null || aux.next.frame == null)
+                return;
+            aux = aux.next;
+        }
+        aux.navigation = map;
     }
 
 }

@@ -1,4 +1,3 @@
-
 public class Quiz {
 
     UI janela;
@@ -10,10 +9,13 @@ public class Quiz {
 
     public void main() {
 
+        janela.start();
     }
 
-    public void respostas(int[] resposta) {
+    public static int respostas(int[] resposta) {
+        int resultado = 0;
 
+        return resultado;
     }
 
 }

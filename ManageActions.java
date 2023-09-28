@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import javax.swing.JRadioButton;
 
 public class ManageActions {
@@ -13,6 +15,7 @@ public class ManageActions {
         frames = ui.getFrames();
 
         answers = new int[frames.size()];
+        Arrays.fill(answers, -1);
     }
 
     public static ManageActions getInstance() {
@@ -34,5 +37,9 @@ public class ManageActions {
     public ManageActions setCurrentSelection(int id, JRadioButton e) {
         answers[id] = frames.currentGetButtonId(e);
         return this;
+    }
+
+    public int[] getAnswares() {
+        return answers;
     }
 }

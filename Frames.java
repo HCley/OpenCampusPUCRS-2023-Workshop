@@ -8,7 +8,7 @@ import javax.swing.JRadioButton;
 
 public class Frames {
 
-    private class Node {
+    private static class Node {
         static int index = 0;
         int id;
 

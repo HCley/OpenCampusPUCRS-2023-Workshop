@@ -3,8 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -134,6 +132,7 @@ public class UI {
     public JPanel adicionarOpcoes(String... questions) {
         JPanel panel = frames.getLastPanel();
         int id = frames.getLastIndex();
+
         JPanel questionPanel = new JPanel(new GridLayout(0, 1));
 
         List<JRadioButton> buttons = Arrays.stream(questions)
@@ -156,6 +155,7 @@ public class UI {
                 .collect(Collectors.toList());
 
         frames.addButtonList(id, buttons);
+
         panel.add(questionPanel, BorderLayout.CENTER);
         return panel;
     }

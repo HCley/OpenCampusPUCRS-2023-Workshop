@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Quiz {
 
     UI janela;
@@ -8,7 +10,6 @@ public class Quiz {
     }
 
     public void main() {
-
     }
 
     public static int respostas(int[] resposta) {
